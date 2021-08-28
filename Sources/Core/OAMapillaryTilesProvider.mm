@@ -23,7 +23,7 @@
 #include <OsmAndCore/IQueryController.h>
 #include "OAWebClient.h"
 #include <SkImageEncoder.h>
-#include <SkBitmapDevice.h>
+#include <SkImage.h>
 #include <SkCanvas.h>
 #include <SkBitmap.h>
 #include <SkData.h>
@@ -116,7 +116,7 @@ void OAMapillaryTilesProvider::drawPoints(
             
             SkScalar x = ((tileX - tileBBox31.left()) / tileSize31) * tileSize - bitmapHalfSize;
             SkScalar y = ((tileY - tileBBox31.top()) / tileSize31) * tileSize - bitmapHalfSize;
-            canvas.drawBitmap(*_image, x, y);
+            canvas.drawImage(SkImage::MakeFromBitmap(*_image), x, y);
         }
     }
 }
@@ -325,8 +325,7 @@ QByteArray OAMapillaryTilesProvider::drawTile(const std::shared_ptr<const OsmAnd
         
         bitmap.eraseColor(SK_ColorTRANSPARENT);
     }
-    SkBitmapDevice target(bitmap);
-    SkCanvas canvas(&target);
+    SkCanvas canvas(bitmap);
     
     drawLines(req, tileId, geometryTile, canvas);
     if (req.zoom >= getPointsZoom())
@@ -334,7 +333,7 @@ QByteArray OAMapillaryTilesProvider::drawTile(const std::shared_ptr<const OsmAnd
     
     canvas.flush();
     
-    SkAutoTUnref<SkData> data(SkImageEncoder::EncodeData(bitmap, SkImageEncoder::kPNG_Type, 100));
+    sk_sp<SkData> data = SkEncodeBitmap(bitmap, SkEncodedImageFormat::kPNG, 100);
     if (NULL == data.get())
     {
         LogPrintf(OsmAnd::LogSeverityLevel::Error,

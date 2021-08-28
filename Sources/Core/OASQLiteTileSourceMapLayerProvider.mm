@@ -8,7 +8,7 @@
 
 #include "OASQLiteTileSourceMapLayerProvider.h"
 
-#include <SkImageDecoder.h>
+#include <SkImage.h>
 #include <SkImageEncoder.h>
 #include <SkStream.h>
 #include <SkData.h>
@@ -92,25 +92,31 @@ const std::shared_ptr<const SkBitmap> OASQLiteTileSourceMapLayerProvider::create
     if (data.length > 0)
     {
         firstBitmap.reset(new SkBitmap());
-        if (!SkImageDecoder::DecodeMemory(
-             data.bytes, data.length,
-             firstBitmap.get(),
-             SkColorType::kUnknown_SkColorType,
-             SkImageDecoder::kDecodePixels_Mode))
+        SkMemoryStream dataStream(data.bytes, data.length, false);
+        sk_sp<SkData> skData = SkData::MakeFromStream(&dataStream, dataStream.getLength());
+        sk_sp<SkImage> skImage = SkImage::MakeFromEncoded(skData);
+        if (!skImage)
         {
             firstBitmap.reset();
+        }
+        else
+        {
+            skImage->asLegacyBitmap(firstBitmap.get());
         }
     }
     if (dataNext.length > 0)
     {
         secondBitmap.reset(new SkBitmap());
-        if (!SkImageDecoder::DecodeMemory(
-             dataNext.bytes, dataNext.length,
-             secondBitmap.get(),
-             SkColorType::kUnknown_SkColorType,
-             SkImageDecoder::kDecodePixels_Mode))
+        SkMemoryStream dataStream(dataNext.bytes, dataNext.length, false);
+        sk_sp<SkData> skData = SkData::MakeFromStream(&dataStream, dataStream.getLength());
+        sk_sp<SkImage> skImage = SkImage::MakeFromEncoded(skData);
+        if (!skImage)
         {
             secondBitmap.reset();
+        }
+        else
+        {
+            skImage->asLegacyBitmap(secondBitmap.get());
         }
     }
     if (!firstBitmap && !secondBitmap)
@@ -141,16 +147,19 @@ const std::shared_ptr<const SkBitmap> OASQLiteTileSourceMapLayerProvider::decode
 {
     // Decode image data
     const std::shared_ptr<SkBitmap> bitmap(new SkBitmap());
-    if (!SkImageDecoder::DecodeMemory(
-            data.bytes, data.length,
-            bitmap.get(),
-            SkColorType::kUnknown_SkColorType,
-            SkImageDecoder::kDecodePixels_Mode))
+    SkMemoryStream dataStream(data.bytes, data.length, false);
+    sk_sp<SkData> skData = SkData::MakeFromStream(&dataStream, dataStream.getLength());
+    sk_sp<SkImage> skImage = SkImage::MakeFromEncoded(skData);
+    if (!skImage)
     {
         LogPrintf(OsmAnd::LogSeverityLevel::Error,
             "Failed to decode image tile");
 
         return nullptr;
+    }
+    else
+    {
+        skImage->asLegacyBitmap(bitmap.get());
     }
     return bitmap;
 }

@@ -13,10 +13,10 @@
 
 #include <QString>
 
-#include <SkImageDecoder.h>
+//#include <SkImageDecoder.h>
 #include <SkCGUtils.h>
 #include <SkCanvas.h>
-#include <SkBitmapDevice.h>
+//#include <SkBitmapDevice.h>
 
 @implementation NSDate (nsDateNative)
 
@@ -72,10 +72,13 @@
     if (resourcePath == nil)
         return nullptr;
     
-    const std::unique_ptr<SkImageDecoder> pngDecoder(CreatePNGImageDecoder());
+    //const std::unique_ptr<SkImageDecoder> pngDecoder(CreatePNGImageDecoder());
     std::shared_ptr<SkBitmap> outputBitmap(new SkBitmap());
-    if (!pngDecoder->DecodeFile(qPrintable(QString::fromNSString(resourcePath)), outputBitmap.get()))
+    sk_sp<SkData> skData = SkData::MakeFromFileName(qPrintable(QString::fromNSString(resourcePath)));
+    sk_sp<SkImage> skImage = SkImage::MakeFromEncoded(skData);
+    if (!skImage)
         return nullptr;
+    skImage->asLegacyBitmap(outputBitmap.get());
     return outputBitmap;
 }
 
