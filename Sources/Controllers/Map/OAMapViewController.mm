@@ -102,6 +102,10 @@
 #include <OsmAndCore/Data/ObfMapObject.h>
 #include <OsmAndCore/Data/ObfPoiSectionInfo.h>
 
+#include <OsmAndCore/Map/ObfMapObjectsMetricsLayerProvider.h>
+#include <OsmAndCore/Map/MapPrimitivesMetricsLayerProvider.h>
+#include <OsmAndCore/Map/MapRasterMetricsLayerProvider.h>
+
 #include <OsmAndCore/QKeyValueIterator.h>
 
 #import "OANativeUtilities.h"
@@ -1798,9 +1802,34 @@
                     _mapPresentationEnvironment->setSettings(newSettings);
             }
         
-          _rasterMapProvider.reset(new OsmAnd::MapRasterLayerProvider_Software(_mapPrimitivesProvider));
-            [_mapView setProvider:_rasterMapProvider
-                        forLayer:0];
+            bool debug = true;
+            if (debug)
+            {
+                // OAVisualMetricsModeBinaryMapData
+            
+                _rasterMapProvider.reset(new OsmAnd::ObfMapObjectsMetricsLayerProvider(_obfMapObjectsProvider,
+                                                                                       256 * _mapView.contentScaleFactor,
+                                                                                       _mapView.contentScaleFactor));
+                 
+                // OAVisualMetricsModeBinaryMapPrimitives
+                /*
+                _rasterMapProvider.reset(new OsmAnd::MapPrimitivesMetricsLayerProvider(_mapPrimitivesProvider,
+                                                                                       256 * _mapView.contentScaleFactor,
+                                                                                       _mapView.contentScaleFactor));
+                */
+                // OAVisualMetricsModeBinaryMapRasterize
+                /*
+                std::shared_ptr<OsmAnd::MapRasterLayerProvider> backendProvider(new OsmAnd::MapRasterLayerProvider_Software(_mapPrimitivesProvider));
+                _rasterMapProvider.reset(new OsmAnd::MapRasterMetricsLayerProvider(backendProvider,
+                                                                                   256 * _mapView.contentScaleFactor,
+                                                                                   _mapView.contentScaleFactor));
+                */
+            }
+            else
+            {
+                _rasterMapProvider.reset(new OsmAnd::MapRasterLayerProvider_Software(_mapPrimitivesProvider));
+            }
+            [_mapView setProvider:_rasterMapProvider forLayer:0];
 
             _mapObjectsSymbolsProvider.reset(new OsmAnd::MapObjectsSymbolsProvider(_mapPrimitivesProvider,
                                                                                    rasterTileSize));
