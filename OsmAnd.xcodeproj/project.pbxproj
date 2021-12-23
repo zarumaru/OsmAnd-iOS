@@ -1008,6 +1008,7 @@
 		8A836B5B227B43DF005EE20E /* widget_intermediate_time_day@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A836B55227B43DF005EE20E /* widget_intermediate_time_day@3x.png */; };
 		8A836B5C227B43DF005EE20E /* widget_intermediate_time_day@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8A836B56227B43DF005EE20E /* widget_intermediate_time_day@2x.png */; };
 		8AB2BBC523ACBAEB00D2AD03 /* desert.render.xml in Resources */ = {isa = PBXBuildFile; fileRef = 8AB2BBC423ACBAEB00D2AD03 /* desert.render.xml */; };
+		8AB87A702773B1CB003B79D1 /* libproj_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8AB87A6F2773B1CB003B79D1 /* libproj_static.a */; };
 		8AE0194624505C8B00DA5C33 /* img_empty_state_terrain@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0193024505C8500DA5C33 /* img_empty_state_terrain@3x.png */; };
 		8AE0194824505C8B00DA5C33 /* ic_custom_offline@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0193124505C8500DA5C33 /* ic_custom_offline@2x.png */; };
 		8AE0194A24505C8B00DA5C33 /* ic_small_arrow_forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8AE0193224505C8500DA5C33 /* ic_small_arrow_forward@2x.png */; };
@@ -3984,6 +3985,7 @@
 		8A836B55227B43DF005EE20E /* widget_intermediate_time_day@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "widget_intermediate_time_day@3x.png"; sourceTree = "<group>"; };
 		8A836B56227B43DF005EE20E /* widget_intermediate_time_day@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "widget_intermediate_time_day@2x.png"; sourceTree = "<group>"; };
 		8AB2BBC423ACBAEB00D2AD03 /* desert.render.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = desert.render.xml; path = ../resources/rendering_styles/desert.render.xml; sourceTree = "<group>"; };
+		8AB87A6F2773B1CB003B79D1 /* libproj_static.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libproj_static.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AE0193024505C8500DA5C33 /* img_empty_state_terrain@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "img_empty_state_terrain@3x.png"; path = "Resources/Icons/img_empty_state_terrain@3x.png"; sourceTree = "<group>"; };
 		8AE0193124505C8500DA5C33 /* ic_custom_offline@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_custom_offline@2x.png"; path = "Resources/Icons/ic_custom_offline@2x.png"; sourceTree = "<group>"; };
 		8AE0193224505C8500DA5C33 /* ic_small_arrow_forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ic_small_arrow_forward@2x.png"; path = "Resources/Icons/ic_small_arrow_forward@2x.png"; sourceTree = "<group>"; };
@@ -6751,6 +6753,7 @@
 				84EE2D951AFB8F91007C9A94 /* EventKit.framework in Frameworks */,
 				8440E2DA1ABEA7370088856A /* libexpat_static.a in Frameworks */,
 				8440E2DB1ABEA7370088856A /* libgdal_static.a in Frameworks */,
+				8AB87A702773B1CB003B79D1 /* libproj_static.a in Frameworks */,
 				8440E2DC1ABEA7370088856A /* libgif_static.a in Frameworks */,
 				8440E2DD1ABEA7370088856A /* libicu4c_static.a in Frameworks */,
 				8440E2DE1ABEA7370088856A /* libjpeg_static.a in Frameworks */,
@@ -8393,6 +8396,7 @@
 		BB098CF31793F7FD00423944 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8AB87A6F2773B1CB003B79D1 /* libproj_static.a */,
 				8A5A002727735D76002227DD /* libharfbuzz_static.a */,
 				DADC09E927295A4B00ADBB3B /* MobileCoreServices.framework */,
 				DADC09E727295A2C00ADBB3B /* SystemConfiguration.framework */,
@@ -15038,6 +15042,8 @@
 					"${PROJECT_DIR}/../core/externals/qtbase-ios/upstream.patched.ios.clang${EFFECTIVE_PLATFORM_NAME}/include/QtNetwork",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched/include/**",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched",
+					"${PROJECT_DIR}/../core/externals/proj/upstream.patched/include",
+					"${PROJECT_DIR}/../core/externals/gdal/upstream.patched/gdal/gcore",
 					"${PROJECT_DIR}/../core/externals/glm/upstream.patched",
 					"${PROJECT_DIR}/../core/externals/harfbuzz/upstream.patched/src",
 					"${PROJECT_DIR}/../core/externals/boost/upstream.patched",
@@ -15114,6 +15120,8 @@
 					"${PROJECT_DIR}/../core/externals/qtbase-ios/upstream.patched.ios.clang${EFFECTIVE_PLATFORM_NAME}/include/QtNetwork",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched/include/**",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched",
+					"${PROJECT_DIR}/../core/externals/proj/upstream.patched/include",
+					"${PROJECT_DIR}/../core/externals/gdal/upstream.patched/gdal/gcore",
 					"${PROJECT_DIR}/../core/externals/glm/upstream.patched",
 					"${PROJECT_DIR}/../core/externals/harfbuzz/upstream.patched/src",
 					"${PROJECT_DIR}/../core/externals/boost/upstream.patched",
