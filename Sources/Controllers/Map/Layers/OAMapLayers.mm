@@ -94,6 +94,9 @@
     _downloadedRegionsLayer = [[OADownloadedRegionsLayer alloc] initWithMapViewController:_mapViewController baseOrder:-10000];
     [self addLayer:_downloadedRegionsLayer];
 
+    _weatherRasterLayer = [[OAWeatherRasterLayer alloc] initWithMapViewController:_mapViewController layerIndex:16];
+    [self addLayer:_weatherRasterLayer];
+
     [OAPlugin createLayers];
 }
 

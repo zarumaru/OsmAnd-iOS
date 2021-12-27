@@ -956,6 +956,7 @@
 		84F4641E1B664D3B00C1D96F /* ic_popup_no_internet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F464171B664D3B00C1D96F /* ic_popup_no_internet@2x.png */; };
 		84F464211B664D3B00C1D96F /* ic_popup_no_internet@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84F464181B664D3B00C1D96F /* ic_popup_no_internet@3x.png */; };
 		84F648D61E5B49C9001A7373 /* mapnik.render.xml in Resources */ = {isa = PBXBuildFile; fileRef = 84F648D51E5B49C9001A7373 /* mapnik.render.xml */; };
+		8A13461B277603E5004765BA /* OAWeatherRasterLayer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8A13461A277603E5004765BA /* OAWeatherRasterLayer.mm */; };
 		8A1C56A3245B247800739846 /* map-icons-png in Resources */ = {isa = PBXBuildFile; fileRef = 8A1C56A0245B247700739846 /* map-icons-png */; };
 		8A1C56A5245B247800739846 /* map-shaders-png in Resources */ = {isa = PBXBuildFile; fileRef = 8A1C56A1245B247700739846 /* map-shaders-png */; };
 		8A1C56A7245B247800739846 /* poi-icons-png in Resources */ = {isa = PBXBuildFile; fileRef = 8A1C56A2245B247800739846 /* poi-icons-png */; };
@@ -3921,6 +3922,8 @@
 		84F712571AE4FED70071B326 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		84F712581AE4FF940071B326 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8A0DF07B23942D47000A1D4B /* hsb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hsb; path = hsb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8A134619277603E5004765BA /* OAWeatherRasterLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OAWeatherRasterLayer.h; sourceTree = "<group>"; };
+		8A13461A277603E5004765BA /* OAWeatherRasterLayer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OAWeatherRasterLayer.mm; sourceTree = "<group>"; };
 		8A16B96D211886110052B161 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8A16B96E211886250052B161 /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8A16B96F211886550052B161 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -10887,6 +10890,8 @@
 				DA5A7ED126C563A400F274C7 /* OAUnderlayMapLayer.mm */,
 				DA66ACBE26D91C5700D43299 /* OABaseVectorLinesLayer.h */,
 				DA66ACBF26D91C5800D43299 /* OABaseVectorLinesLayer.mm */,
+				8A134619277603E5004765BA /* OAWeatherRasterLayer.h */,
+				8A13461A277603E5004765BA /* OAWeatherRasterLayer.mm */,
 			);
 			path = Layers;
 			sourceTree = "<group>";
@@ -14383,6 +14388,7 @@
 				DA5A840326C563A800F274C7 /* OAAddressTableViewController.mm in Sources */,
 				3242A46F26CB0F1C001CA174 /* OACollapsableNearestPoiTypeView.mm in Sources */,
 				DA5A835D26C563A800F274C7 /* OATextLineViewCell.m in Sources */,
+				8A13461B277603E5004765BA /* OAWeatherRasterLayer.mm in Sources */,
 				DA5A836326C563A800F274C7 /* OAHomeWorkCollectionViewCell.mm in Sources */,
 				DA5A848326C563A900F274C7 /* OAMapInfoWidgetsFactory.mm in Sources */,
 				DA5A83D926C563A800F274C7 /* OAFavoriteImportViewController.mm in Sources */,
@@ -15042,10 +15048,8 @@
 					"${PROJECT_DIR}/../core/externals/qtbase-ios/upstream.patched.ios.clang${EFFECTIVE_PLATFORM_NAME}/include/QtNetwork",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched/include/**",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched",
-					"${PROJECT_DIR}/../core/externals/proj/upstream.patched/include",
-					"${PROJECT_DIR}/../core/externals/gdal/upstream.patched/gdal/gcore",
-					"${PROJECT_DIR}/../core/externals/glm/upstream.patched",
 					"${PROJECT_DIR}/../core/externals/harfbuzz/upstream.patched/src",
+					"${PROJECT_DIR}/../core/externals/glm/upstream.patched",
 					"${PROJECT_DIR}/../core/externals/boost/upstream.patched",
 					/usr/include/libxml2,
 					"${PROJECT_DIR}/../core/externals/geographiclib/upstream.patched/include",
@@ -15120,10 +15124,8 @@
 					"${PROJECT_DIR}/../core/externals/qtbase-ios/upstream.patched.ios.clang${EFFECTIVE_PLATFORM_NAME}/include/QtNetwork",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched/include/**",
 					"${PROJECT_DIR}/../core/externals/skia/upstream.patched",
-					"${PROJECT_DIR}/../core/externals/proj/upstream.patched/include",
-					"${PROJECT_DIR}/../core/externals/gdal/upstream.patched/gdal/gcore",
-					"${PROJECT_DIR}/../core/externals/glm/upstream.patched",
 					"${PROJECT_DIR}/../core/externals/harfbuzz/upstream.patched/src",
+					"${PROJECT_DIR}/../core/externals/glm/upstream.patched",
 					"${PROJECT_DIR}/../core/externals/boost/upstream.patched",
 					/usr/include/libxml2,
 					"${PROJECT_DIR}/../core/externals/geographiclib/upstream.patched/include",
