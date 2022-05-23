@@ -326,8 +326,8 @@
         bool sameLocation = newLocation && [newLocation isEqual:_myLocation];
         bool sameHeading = _heading == newHeading;
 
-        _myLocation = newLocation;
-        _heading = newHeading;
+        _myLocation = _myLocation ? _myLocation : newLocation;
+        _heading = _heading >= 0 ? _heading : newHeading;
 
         if (_mapViewController && (!sameLocation || !sameHeading))
         {
@@ -346,18 +346,19 @@
                 });
             }
             
-            const OsmAnd::PointI newTarget31(OsmAnd::Utilities::get31TileNumberX(newLocation.coordinate.longitude),
-                                             OsmAnd::Utilities::get31TileNumberY(newLocation.coordinate.latitude));
+            const OsmAnd::PointI newTarget31(OsmAnd::Utilities::get31TileNumberX(_myLocation.coordinate.longitude),
+                                             OsmAnd::Utilities::get31TileNumberY(_myLocation.coordinate.latitude));
             
             if (_app.mapMode == OAMapModePositionTrack || _app.mapMode == OAMapModeFollow)
             {
                 _mapView.animator->pause();
+                double duration = MAX((newLocation.timestamp.timeIntervalSince1970 - _myLocation.timestamp.timeIntervalSince1970) / 2, kOneSecondAnimatonTime);
                 
                 float zoom = 0;
                 if ([_settings.autoZoomMap get])
                     zoom = [self autozoom:newLocation];
                 
-                CLLocationDirection direction = [self calculateDirectionWithLocation:newLocation heading:newHeading applyViewAngleVisibility:YES];
+                CLLocationDirection direction = [self calculateDirectionWithLocation:_myLocation heading:_heading applyViewAngleVisibility:YES];
                 
                 const auto targetAnimation = _mapView.animator->getCurrentAnimation(kLocationServicesAnimationKey, OsmAnd::MapAnimator::AnimatedValue::Target);
                 auto zoomAnimation = _mapView.animator->getCurrentAnimation(kLocationServicesAnimationKey, OsmAnd::MapAnimator::AnimatedValue::Zoom);
@@ -377,12 +378,12 @@
                     if (azimuthAnimation)
                     {
                         _mapView.animator->cancelAnimation(azimuthAnimation);
-                        _mapView.animator->animateAzimuthTo(direction, azimuthAnimation->getDuration() - azimuthAnimation->getTimePassed(), OsmAnd::MapAnimator::TimingFunction::Linear, kLocationServicesAnimationKey);
+                        _mapView.animator->animateAzimuthTo(direction, duration, OsmAnd::MapAnimator::TimingFunction::Linear, kLocationServicesAnimationKey);
                     }
                     else
                     {
                         _mapView.animator->animateAzimuthTo(direction,
-                                                            kFastAnimationTime,
+                                                            duration,
                                                             OsmAnd::MapAnimator::TimingFunction::Linear,
                                                             kLocationServicesAnimationKey);
                     }
@@ -391,13 +392,12 @@
                 // Update target
                 if (!sameLocation)
                 {
-                    if (![self.class isSmallSpeedForAnimation:newLocation] && _settings.animateMyLocation.get)
+                    if (![self.class isSmallSpeedForAnimation:_myLocation] && _settings.animateMyLocation.get)
                     {
                         if (targetAnimation)
                         {
                             _mapView.animator->cancelAnimation(targetAnimation);
-                            
-                            double duration = targetAnimation->getDuration() - targetAnimation->getTimePassed();
+//                            duration -= targetAnimation->getDuration() - targetAnimation->getTimePassed();
                             _mapView.animator->animateTargetTo(newTarget31,
                                                                duration,
                                                                OsmAnd::MapAnimator::TimingFunction::Linear,
@@ -406,7 +406,7 @@
                         else
                         {
                             _mapView.animator->animateTargetTo(newTarget31,
-                                                               kFastAnimationTime,
+                                                               duration,
                                                                OsmAnd::MapAnimator::TimingFunction::Linear,
                                                                kLocationServicesAnimationKey);
                         }
@@ -423,18 +423,20 @@
                     if (zoomAnimation)
                     {
                         _mapView.animator->cancelAnimation(zoomAnimation);
-                        _mapView.animator->animateZoomTo(zoom, zoomAnimation->getDuration() - zoomAnimation->getTimePassed(), OsmAnd::MapAnimator::TimingFunction::Linear, kLocationServicesAnimationKey);
+                        _mapView.animator->animateZoomTo(zoom, duration, OsmAnd::MapAnimator::TimingFunction::Linear, kLocationServicesAnimationKey);
                     }
                     else
                     {
-                        _mapView.animator->animateZoomTo(zoom, kFastAnimationTime, OsmAnd::MapAnimator::TimingFunction::Linear, kLocationServicesAnimationKey);
+                        _mapView.animator->animateZoomTo(zoom, duration, OsmAnd::MapAnimator::TimingFunction::Linear, kLocationServicesAnimationKey);
                     }
                 }
                 
                 _mapView.animator->resume();
             }
             _showViewAngle = (newLocation.course < 0 || [self.class isSmallSpeedForCompass:newLocation]);
-            [_mapViewController updateLocation:newLocation heading:newHeading];
+            [_mapViewController updateLocation:_myLocation heading:_heading];
+            _myLocation = newLocation;
+            _heading = newHeading;
 
             OARoutingHelper *routingHelper = [OARoutingHelper sharedInstance];
             _followingMode = [routingHelper isFollowingMode];
